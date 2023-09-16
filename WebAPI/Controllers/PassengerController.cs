@@ -1,4 +1,5 @@
-﻿using Business.Abstract;
+﻿using AutoMapper;
+using Business.Abstract;
 using Business.ValidationRules.Passenger;
 using Entities.Concrete;
 using Entities.Dtos.Passenger;
@@ -12,23 +13,25 @@ namespace WebAPI.Controllers
 	{
 		private readonly IPassengerService passengerService;
 		private readonly ITravelService travelService;
+		private readonly IMapper mapper;
 
-		public PassengerController(IPassengerService passengerService, ITravelService travelService)
+		public PassengerController(IPassengerService passengerService, ITravelService travelService, IMapper mapper)
 		{
 			this.passengerService = passengerService;
 			this.travelService = travelService;
+			this.mapper = mapper;
 		}
 
 		[HttpGet("GetAll")]
 		public IActionResult GetAll()
 		{
-			var result = passengerService.GetAll();
+			var result = mapper.Map<List<ResultPassengerDto>>(passengerService.GetAll());
 			return Ok(result);
 		}
 		[HttpGet("GetById")]
 		public IActionResult GetById(int id)
 		{
-			var result = passengerService.GetById(id);
+			var result = mapper.Map<ResultPassengerDto>(passengerService.GetById(id));
 			return Ok(result);
 		}
 

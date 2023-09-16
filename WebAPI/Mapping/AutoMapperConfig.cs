@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Entities.Concrete;
+using Entities.Dtos.Passenger;
 using Entities.Dtos.Travel;
 
 namespace WebAPI.Mapping
@@ -10,6 +11,8 @@ namespace WebAPI.Mapping
 		{
 			CreateMap<CreateTravelDto, Travel>().ReverseMap();
 			CreateMap<ResultTravelDto, Travel>().ReverseMap();
+
+			CreateMap<ResultPassengerDto, Passenger>().ReverseMap();
 		}
 	}
 }
