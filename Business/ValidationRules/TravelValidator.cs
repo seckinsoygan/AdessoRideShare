@@ -1,4 +1,4 @@
-﻿using Entities.Dtos;
+﻿using Entities.Dtos.Travel;
 using FluentValidation;
 
 namespace Business.ValidationRules

@@ -4,6 +4,7 @@ using DataAccess.Shared;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataAccess.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230916105200_mig_add_passanger")]
+    partial class mig_add_passanger
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -71,9 +73,6 @@ namespace DataAccess.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("PassengerCount")
-                        .HasColumnType("int");
-
                     b.Property<int>("SeatCount")
                         .HasColumnType("int");
 
@@ -88,12 +87,17 @@ namespace DataAccess.Migrations
             modelBuilder.Entity("Entities.Concrete.Passenger", b =>
                 {
                     b.HasOne("Entities.Concrete.Travel", "TravelInfo")
-                        .WithMany()
+                        .WithMany("Passengers")
                         .HasForeignKey("TravelId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("TravelInfo");
+                });
+
+            modelBuilder.Entity("Entities.Concrete.Travel", b =>
+                {
+                    b.Navigation("Passengers");
                 });
 #pragma warning restore 612, 618
         }

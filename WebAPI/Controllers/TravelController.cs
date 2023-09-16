@@ -2,7 +2,7 @@
 using Business.Abstract;
 using Business.ValidationRules;
 using Entities.Concrete;
-using Entities.Dtos;
+using Entities.Dtos.Travel;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebAPI.Controllers
@@ -20,10 +20,10 @@ namespace WebAPI.Controllers
 			this.mapper = mapper;
 		}
 
-		[HttpGet("getAll")]
+		[HttpGet("GetAll")]
 		public IActionResult GetAll()
 		{
-			var result = travelService.GetAll();
+			var result = mapper.Map<List<ResultTravelDto>>(travelService.GetAll());
 			return Ok(result);
 		}
 
@@ -44,6 +44,7 @@ namespace WebAPI.Controllers
 			{
 				traveldto.TravelStatus = true;
 				var value = mapper.Map<Travel>(traveldto);
+				value.PassengerCount = 0;
 				travelService.Add(value);
 				return Ok("Travel added successfully");
 			}
