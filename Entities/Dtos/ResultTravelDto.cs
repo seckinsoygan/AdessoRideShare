@@ -1,6 +1,6 @@
 ﻿namespace Entities.Dtos
 {
-    public class WhereToWhereDto
+    public class ResultTravelDto
     {
         public string FromWhere { get; set; }
         public string FromTo { get; set; }
