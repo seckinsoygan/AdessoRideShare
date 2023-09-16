@@ -10,8 +10,6 @@ namespace WebAPI.Mapping
 		{
 			CreateMap<CreateTravelDto, Travel>().ReverseMap();
 			CreateMap<ResultTravelDto, Travel>().ReverseMap();
-
-			//CreateMap<AddPassengerDto, Passenger>().ReverseMap();
 		}
 	}
 }

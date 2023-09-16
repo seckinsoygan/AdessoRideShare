@@ -36,9 +36,9 @@ namespace WebAPI.Controllers
 		public IActionResult AddPassenger(AddPassengerDto dto)
 		{
 			var validator = new PassengerValidator();
-			var validateresult = validator.Validate(dto);
+			var validatoresult = validator.Validate(dto);
 
-			if (validateresult.IsValid)
+			if (validatoresult.IsValid)
 			{
 				var travelinfo = travelService.GetAll().Where(x => x.FromWhere == dto.FromWhere && x.FromTo == dto.FromTo && x.TravelStatus == true && x.Date == dto.Date).FirstOrDefault();
 				if (travelinfo != null)
@@ -61,7 +61,7 @@ namespace WebAPI.Controllers
 			}
 			else
 			{
-				var errors = validateresult.Errors;
+				var errors = validatoresult.Errors;
 				var errorMessages = errors.Select(e => e.ErrorMessage).ToList();
 				var response = new { errors = errorMessages };
 

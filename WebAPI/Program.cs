@@ -1,7 +1,6 @@
-using Business.Abstract;
-using Business.Concrete;
-using DataAccess.Abstract;
-using DataAccess.Concrete;
+using Autofac;
+using Autofac.Extensions.DependencyInjection;
+using Business.DependencyResolvers.Autofac;
 using DataAccess.Shared;
 using WebAPI.Mapping;
 
@@ -12,11 +11,11 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.AddDbContext<AppDbContext>();
 
-builder.Services.AddScoped<ITravelService, TravelManager>();
-builder.Services.AddScoped<ITravelDal, EfTravelDal>();
-
-builder.Services.AddScoped<IPassengerService, PassengerManager>();
-builder.Services.AddScoped<IPassengerDal, EfPassengerDal>();
+builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory());
+builder.Host.ConfigureContainer<ContainerBuilder>(builder =>
+{
+	builder.RegisterModule(new AutofacBusinessModule());
+});
 
 builder.Services.AddAutoMapper(typeof(AutoMapperConfig));
 
