@@ -1,4 +1,5 @@
 ﻿using Business.Abstract;
+using Business.ValidationRules.Passenger;
 using Entities.Concrete;
 using Entities.Dtos.Passenger;
 using Microsoft.AspNetCore.Mvc;
@@ -34,24 +35,38 @@ namespace WebAPI.Controllers
 		[HttpPost("Add")]
 		public IActionResult AddPassenger(AddPassengerDto dto)
 		{
-			var travelinfo = travelService.GetAll().Where(x => x.FromWhere == dto.FromWhere && x.FromTo == dto.FromTo && x.TravelStatus == true && x.Date == dto.Date).FirstOrDefault();
-			if (travelinfo != null)
+			var validator = new PassengerValidator();
+			var validateresult = validator.Validate(dto);
+
+			if (validateresult.IsValid)
 			{
-				var passenger = new Passenger();
-				passenger.Name = dto.Name;
-				passenger.Surname = dto.Surname;
-				passenger.TravelId = travelinfo.TravelId;
-				passenger.TravelInfo = travelinfo;
-				passengerService.Add(passenger);
-				travelinfo.PassengerCount += 1;
-				if (travelinfo.PassengerCount == travelinfo.SeatCount)
+				var travelinfo = travelService.GetAll().Where(x => x.FromWhere == dto.FromWhere && x.FromTo == dto.FromTo && x.TravelStatus == true && x.Date == dto.Date).FirstOrDefault();
+				if (travelinfo != null)
 				{
-					travelinfo.TravelStatus = false;
+					var passenger = new Passenger();
+					passenger.Name = dto.Name;
+					passenger.Surname = dto.Surname;
+					passenger.TravelId = travelinfo.TravelId;
+					passenger.TravelInfo = travelinfo;
+					passengerService.Add(passenger);
+					travelinfo.PassengerCount += 1;
+					if (travelinfo.PassengerCount == travelinfo.SeatCount)
+					{
+						travelinfo.TravelStatus = false;
+					}
+					travelService.Update(travelinfo);
+					return Ok("Passenger successfully added. Trip information saved.");
 				}
-				travelService.Update(travelinfo);
-				return Ok("Passenger successfully added. Trip information saved.");
+				return BadRequest("No trips for this information were found.");
 			}
-			return BadRequest("No trips for this information were found.");
+			else
+			{
+				var errors = validateresult.Errors;
+				var errorMessages = errors.Select(e => e.ErrorMessage).ToList();
+				var response = new { errors = errorMessages };
+
+				return BadRequest(response);
+			}
 		}
 		[HttpDelete("Delete")]
 		public IActionResult DeletePassenger(int id)

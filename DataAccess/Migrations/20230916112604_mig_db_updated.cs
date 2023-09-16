@@ -4,23 +4,23 @@
 
 namespace DataAccess.Migrations
 {
-    public partial class mig_db_updated : Migration
-    {
-        protected override void Up(MigrationBuilder migrationBuilder)
-        {
-            migrationBuilder.AddColumn<int>(
-                name: "PassengerCount",
-                table: "Travels",
-                type: "int",
-                nullable: false,
-                defaultValue: 0);
-        }
+	public partial class mig_db_updated : Migration
+	{
+		protected override void Up(MigrationBuilder migrationBuilder)
+		{
+			migrationBuilder.AddColumn<int>(
+				name: "PassengerCount",
+				table: "Travels",
+				type: "int",
+				nullable: false,
+				defaultValue: 0);
+		}
 
-        protected override void Down(MigrationBuilder migrationBuilder)
-        {
-            migrationBuilder.DropColumn(
-                name: "PassengerCount",
-                table: "Travels");
-        }
-    }
+		protected override void Down(MigrationBuilder migrationBuilder)
+		{
+			migrationBuilder.DropColumn(
+				name: "PassengerCount",
+				table: "Travels");
+		}
+	}
 }

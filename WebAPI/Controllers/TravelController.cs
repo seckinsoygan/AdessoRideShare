@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using Business.Abstract;
-using Business.ValidationRules;
+using Business.ValidationRules.Travel;
 using Entities.Concrete;
 using Entities.Dtos.Travel;
 using Microsoft.AspNetCore.Mvc;
