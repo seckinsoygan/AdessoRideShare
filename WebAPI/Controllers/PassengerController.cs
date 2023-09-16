@@ -53,7 +53,7 @@ namespace WebAPI.Controllers
 			}
 			return BadRequest("No trips for this information were found.");
 		}
-		[HttpDelete]
+		[HttpDelete("Delete")]
 		public IActionResult DeletePassenger(int id)
 		{
 			var passenger = passengerService.GetById(id);

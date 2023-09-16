@@ -23,7 +23,7 @@ namespace WebAPI.Controllers
 		[HttpGet("GetAll")]
 		public IActionResult GetAll()
 		{
-			var result = mapper.Map<List<ResultTravelDto>>(travelService.GetAll());
+			var result = travelService.GetAll();
 			return Ok(result);
 		}
 
@@ -34,7 +34,7 @@ namespace WebAPI.Controllers
 			return Ok(mapper.Map<List<ResultTravelDto>>(result));
 		}
 
-		[HttpPost("AddTravel")]
+		[HttpPost("Add")]
 		public IActionResult Add(CreateTravelDto traveldto)
 		{
 			var validator = new TravelValidator();
@@ -58,7 +58,7 @@ namespace WebAPI.Controllers
 			}
 		}
 
-		[HttpDelete("DeleteTravel")]
+		[HttpDelete("Delete")]
 		public IActionResult Delete(int id)
 		{
 			var value = travelService.GetById(id);

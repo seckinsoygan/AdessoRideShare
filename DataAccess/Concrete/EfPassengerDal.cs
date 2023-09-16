@@ -1,6 +1,7 @@
 ﻿using DataAccess.Abstract;
 using DataAccess.Shared;
 using Entities.Concrete;
+using Microsoft.EntityFrameworkCore;
 
 namespace DataAccess.Concrete
 {
@@ -27,12 +28,12 @@ namespace DataAccess.Concrete
 
 		public List<Passenger> GetAll()
 		{
-			return appDbContext.Passengers.ToList();
+			return appDbContext.Passengers.Include(x => x.TravelInfo).ToList();
 		}
 
 		public Passenger GetById(int id)
 		{
-			return appDbContext.Passengers.Find(id);
+			return appDbContext.Passengers.Include(x => x.TravelInfo).SingleOrDefault(x => x.PassengerId == id);
 		}
 
 		public void Update(Passenger passenger)
